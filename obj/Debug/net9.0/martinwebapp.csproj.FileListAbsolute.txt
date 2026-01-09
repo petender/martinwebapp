@@ -103,3 +103,4 @@ C:\martinwebapp\obj\Debug\net9.0\refint\martinwebapp.dll
 C:\martinwebapp\obj\Debug\net9.0\martinwebapp.pdb
 C:\martinwebapp\obj\Debug\net9.0\martinwebapp.genruntimeconfig.cache
 C:\martinwebapp\obj\Debug\net9.0\ref\martinwebapp.dll
+C:\martinwebapp\bin\Debug\net9.0\sampledata.json
