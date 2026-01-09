@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^dotnet new webapp --framework net9\\.0 --force$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
