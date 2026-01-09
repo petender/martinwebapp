@@ -1,0 +1,145 @@
+@page
+@model DoctorsModel
+@{
+    ViewData["Title"] = "Doctors";
+}
+
+<style>
+    .doctors-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .doctors-title {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+
+    .doctors-table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .doctors-table thead {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+    }
+
+    .doctors-table th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+    }
+
+    .doctors-table tbody tr {
+        border-bottom: 1px solid #ecf0f1;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .doctors-table tbody tr:hover {
+        background-color: #f8f9fa;
+        transform: scale(1.01);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .doctors-table tbody tr:nth-child(even) {
+        background-color: #f8f9fa;
+    }
+
+    .doctors-table td {
+        padding: 15px;
+        color: #2c3e50;
+    }
+
+    .doctor-name {
+        color: #11998e;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .doctor-name:hover {
+        text-decoration: underline;
+    }
+
+    .specialization-badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        background-color: #e0f2f1;
+        color: #00796b;
+    }
+</style>
+
+<div class="doctors-container">
+    <h1 class="doctors-title">@ViewData["Title"]</h1>
+    
+    @if (Model.Doctors != null && Model.Doctors.Any())
+    {
+        <table class="doctors-table">
+            <thead>
+                <tr>
+                    <th>Doctor ID</th>
+                    <th>Name</th>
+                    <th>Specialization</th>
+                    <th>Department</th>
+                    <th>Phone</th>
+                    <th>Experience</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var doctor in Model.Doctors)
+                {
+                    <tr onclick="showDoctorDetails(@doctor.Id)">
+                        <td>@doctor.LicenseNumber</td>
+                        <td>
+                            <span class="doctor-name">@doctor.FirstName @doctor.LastName</span>
+                        </td>
+                        <td>
+                            <span class="specialization-badge">@doctor.Specialization</span>
+                        </td>
+                        <td>@doctor.Department</td>
+                        <td>@doctor.PhoneNumber</td>
+                        <td>@doctor.YearsOfExperience years</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-center">No doctor data available.</p>
+    }
+</div>
+
+<script>
+    function showDoctorDetails(doctorId) {
+        // Open doctor details in a new popup window
+        const width = 850;
+        const height = 700;
+        const left = (screen.width - width) / 2;
+        const top = (screen.height - height) / 2;
+        
+        const features = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes,status=yes`;
+        const popup = window.open(`/DoctorDetail/${doctorId}`, `doctor_${doctorId}`, features);
+        
+        if (popup) {
+            popup.focus();
+        } else {
+            alert('Please allow popups for this website to view doctor details.');
+        }
+    }
+</script>

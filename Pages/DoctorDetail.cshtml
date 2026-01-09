@@ -1,0 +1,265 @@
+@page "{id:int}"
+@model DoctorDetailModel
+@{
+    Layout = null;
+    var doctor = Model.Doctor;
+    if (doctor == null)
+    {
+        return;
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctor Profile - @doctor.FirstName @doctor.LastName</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @@keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .header .specialization {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+
+        .header .license {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #11998e;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #11998e;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .detail-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #11998e;
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+
+        .detail-value {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            background-color: #e0f2f1;
+            color: #00796b;
+        }
+
+        .bio-box {
+            background: #f1f8e9;
+            border-left: 4px solid #689f38;
+            padding: 20px;
+            border-radius: 5px;
+            line-height: 1.6;
+        }
+
+        .bio-box p {
+            color: #33691e;
+            font-size: 1rem;
+        }
+
+        .education-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .education-box strong {
+            color: #f57c00;
+        }
+
+        .experience-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .close-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+
+        .close-button:hover {
+            transform: scale(1.02);
+        }
+
+        .close-button:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>@doctor.FirstName @doctor.LastName</h1>
+            <div class="specialization">@doctor.Specialization</div>
+            <div class="license">License: @doctor.LicenseNumber</div>
+        </div>
+
+        <div class="content">
+            <!-- Professional Information -->
+            <div class="section">
+                <h2 class="section-title">Professional Information</h2>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">Department</div>
+                        <div class="detail-value">
+                            <span class="badge">@doctor.Department</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Years of Experience</div>
+                        <div class="detail-value">
+                            <span class="experience-badge">@doctor.YearsOfExperience Years</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Join Date</div>
+                        <div class="detail-value">@doctor.JoinDate.ToString("MMMM dd, yyyy")</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="section">
+                <h2 class="section-title">Contact Information</h2>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">Phone Number</div>
+                        <div class="detail-value">@doctor.PhoneNumber</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Email</div>
+                        <div class="detail-value">@doctor.Email</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education -->
+            @if (!string.IsNullOrEmpty(doctor.Education))
+            {
+                <div class="section">
+                    <h2 class="section-title">Education</h2>
+                    <div class="education-box">
+                        <strong>🎓 Credentials:</strong> @doctor.Education
+                    </div>
+                </div>
+            }
+
+            <!-- Biography -->
+            @if (!string.IsNullOrEmpty(doctor.Bio))
+            {
+                <div class="section">
+                    <h2 class="section-title">About</h2>
+                    <div class="bio-box">
+                        <p>@doctor.Bio</p>
+                    </div>
+                </div>
+            }
+
+            <button class="close-button" onclick="window.close()">Close Window</button>
+        </div>
+    </div>
+</body>
+</html>

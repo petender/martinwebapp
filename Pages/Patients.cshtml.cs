@@ -1,0 +1,22 @@
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using martinwebapp.Data;
+
+namespace martinwebapp.Pages;
+
+public class PatientsModel : PageModel
+{
+    private readonly ApplicationDbContext _context;
+
+    public List<Patient> Patients { get; set; } = new List<Patient>();
+
+    public PatientsModel(ApplicationDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task OnGetAsync()
+    {
+        Patients = await _context.Patients.ToListAsync();
+    }
+}
