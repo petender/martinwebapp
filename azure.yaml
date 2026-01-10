@@ -5,7 +5,7 @@ metadata:
   
 services:
   web:
-    project: .
+    project: ./src
     language: csharp
     host: appservice
     
