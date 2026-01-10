@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using martinwebapp.Data;
+using contosohealth.Data;
 using System.Security.Claims;
 
 public class LoginModel : PageModel

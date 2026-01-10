@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace martinwebapp.Data;
+namespace contosohealth.Data;
 
 public class ApplicationDbContext : DbContext
 {

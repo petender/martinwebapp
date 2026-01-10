@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using martinwebapp.Data;
+using contosohealth.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);

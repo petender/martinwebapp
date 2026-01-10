@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
 
-namespace martinwebapp.Pages;
+namespace contosohealth.Pages;
 
 public class Employee
 {

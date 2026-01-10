@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using martinwebapp.Data;
+using contosohealth.Data;
 
-namespace martinwebapp.Pages;
+namespace contosohealth.Pages;
 
 public class DoctorDetailModel : PageModel
 {

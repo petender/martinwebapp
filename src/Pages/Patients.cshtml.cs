@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using martinwebapp.Data;
+using contosohealth.Data;
 
-namespace martinwebapp.Pages;
+namespace contosohealth.Pages;
 
 [Authorize]
 public class PatientsModel : PageModel

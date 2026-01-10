@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace martinwebapp.Data;
+namespace contosohealth.Data;
 
 public class Patient
 {

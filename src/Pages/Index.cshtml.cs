@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace martinwebapp.Pages;
+namespace contosohealth.Pages;
 
 public class IndexModel : PageModel
 {
