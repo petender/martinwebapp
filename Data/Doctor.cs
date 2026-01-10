@@ -43,5 +43,8 @@ public class Doctor
     [MaxLength(500)]
     public string Bio { get; set; } = string.Empty;
     
+    [MaxLength(300)]
+    public string PhotoUrl { get; set; } = string.Empty;
+    
     public DateTime JoinDate { get; set; }
 }

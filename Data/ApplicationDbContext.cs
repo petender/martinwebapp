@@ -31,6 +31,7 @@ public class ApplicationDbContext : DbContext
                 BloodType = "A+",
                 Allergies = "Penicillin, Peanuts",
                 MedicalHistory = "Hypertension, Type 2 Diabetes",
+                PhotoUrl = "/images/patients/patient1.jpg",
                 RegistrationDate = new DateTime(2020, 1, 10)
             },
             new Patient
@@ -46,6 +47,7 @@ public class ApplicationDbContext : DbContext
                 BloodType = "O-",
                 Allergies = "None",
                 MedicalHistory = "Asthma",
+                PhotoUrl = "/images/patients/patient2.jpg",
                 RegistrationDate = new DateTime(2019, 5, 15)
             },
             new Patient
@@ -61,6 +63,7 @@ public class ApplicationDbContext : DbContext
                 BloodType = "B+",
                 Allergies = "Latex, Shellfish",
                 MedicalHistory = "Heart Disease, High Cholesterol",
+                PhotoUrl = "/images/patients/patient3.jpg",
                 RegistrationDate = new DateTime(2018, 8, 20)
             },
             new Patient
@@ -76,6 +79,7 @@ public class ApplicationDbContext : DbContext
                 BloodType = "AB+",
                 Allergies = "None",
                 MedicalHistory = "Seasonal Allergies",
+                PhotoUrl = "/images/patients/patient4.jpg",
                 RegistrationDate = new DateTime(2021, 3, 5)
             },
             new Patient
@@ -91,6 +95,7 @@ public class ApplicationDbContext : DbContext
                 BloodType = "O+",
                 Allergies = "Sulfa drugs",
                 MedicalHistory = "Kidney Stones",
+                PhotoUrl = "/images/patients/patient5.jpg",
                 RegistrationDate = new DateTime(2022, 6, 12)
             },
             new Patient
@@ -106,6 +111,7 @@ public class ApplicationDbContext : DbContext
                 BloodType = "A-",
                 Allergies = "Aspirin",
                 MedicalHistory = "Migraines",
+                PhotoUrl = "/images/patients/patient6.jpg",
                 RegistrationDate = new DateTime(2020, 11, 28)
             },
             new Patient
@@ -121,6 +127,7 @@ public class ApplicationDbContext : DbContext
                 BloodType = "B-",
                 Allergies = "Iodine",
                 MedicalHistory = "Thyroid Disorder",
+                PhotoUrl = "/images/patients/patient7.jpg",
                 RegistrationDate = new DateTime(2019, 2, 17)
             },
             new Patient
@@ -136,6 +143,7 @@ public class ApplicationDbContext : DbContext
                 BloodType = "O+",
                 Allergies = "Bee stings",
                 MedicalHistory = "None",
+                PhotoUrl = "/images/patients/patient8.jpg",
                 RegistrationDate = new DateTime(2023, 1, 9)
             }
         );
@@ -155,6 +163,7 @@ public class ApplicationDbContext : DbContext
                 YearsOfExperience = 15,
                 Education = "Harvard Medical School, MD",
                 Bio = "Board-certified cardiologist specializing in interventional cardiology and heart disease prevention.",
+                PhotoUrl = "/images/doctors/doctor1.jpg",
                 JoinDate = new DateTime(2015, 6, 1)
             },
             new Doctor
@@ -170,6 +179,7 @@ public class ApplicationDbContext : DbContext
                 YearsOfExperience = 20,
                 Education = "Johns Hopkins University, MD",
                 Bio = "Experienced orthopedic surgeon specializing in joint replacement and sports medicine.",
+                PhotoUrl = "/images/doctors/doctor2.jpg",
                 JoinDate = new DateTime(2012, 3, 15)
             },
             new Doctor
@@ -185,6 +195,7 @@ public class ApplicationDbContext : DbContext
                 YearsOfExperience = 12,
                 Education = "Stanford University School of Medicine, MD",
                 Bio = "Compassionate pediatrician dedicated to providing comprehensive care for children of all ages.",
+                PhotoUrl = "/images/doctors/doctor3.jpg",
                 JoinDate = new DateTime(2016, 9, 1)
             },
             new Doctor
@@ -200,6 +211,7 @@ public class ApplicationDbContext : DbContext
                 YearsOfExperience = 18,
                 Education = "Mayo Clinic Alix School of Medicine, MD",
                 Bio = "Neurologist specializing in stroke treatment and neurodegenerative diseases.",
+                PhotoUrl = "/images/doctors/doctor4.jpg",
                 JoinDate = new DateTime(2013, 1, 10)
             },
             new Doctor
@@ -215,6 +227,7 @@ public class ApplicationDbContext : DbContext
                 YearsOfExperience = 10,
                 Education = "UCLA David Geffen School of Medicine, MD",
                 Bio = "Dermatologist specializing in medical and cosmetic dermatology, skin cancer treatment.",
+                PhotoUrl = "/images/doctors/doctor5.jpg",
                 JoinDate = new DateTime(2018, 7, 20)
             },
             new Doctor
@@ -230,6 +243,7 @@ public class ApplicationDbContext : DbContext
                 YearsOfExperience = 14,
                 Education = "University of Pennsylvania Perelman School of Medicine, MD",
                 Bio = "Internal medicine physician with expertise in chronic disease management and preventive care.",
+                PhotoUrl = "/images/doctors/doctor6.jpg",
                 JoinDate = new DateTime(2014, 11, 5)
             },
             new Doctor
@@ -245,6 +259,7 @@ public class ApplicationDbContext : DbContext
                 YearsOfExperience = 16,
                 Education = "Columbia University Vagelos College of Physicians and Surgeons, MD",
                 Bio = "OB/GYN specializing in high-risk pregnancies and minimally invasive gynecologic surgery.",
+                PhotoUrl = "/images/doctors/doctor7.jpg",
                 JoinDate = new DateTime(2011, 4, 18)
             },
             new Doctor
@@ -260,6 +275,7 @@ public class ApplicationDbContext : DbContext
                 YearsOfExperience = 11,
                 Education = "Duke University School of Medicine, MD",
                 Bio = "Emergency medicine physician with experience in trauma care and critical care medicine.",
+                PhotoUrl = "/images/doctors/doctor8.jpg",
                 JoinDate = new DateTime(2017, 2, 22)
             }
         );

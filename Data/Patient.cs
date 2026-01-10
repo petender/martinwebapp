@@ -44,5 +44,8 @@ public class Patient
     [MaxLength(500)]
     public string MedicalHistory { get; set; } = string.Empty;
     
+    [MaxLength(300)]
+    public string PhotoUrl { get; set; } = string.Empty;
+    
     public DateTime RegistrationDate { get; set; }
 }

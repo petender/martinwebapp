@@ -90,6 +90,14 @@
         background-color: #fce4ec;
         color: #c2185b;
     }
+
+    .patient-photo {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #667eea;
+    }
 </style>
 
 <div class="patients-container">
@@ -100,6 +108,7 @@
         <table class="patients-table">
             <thead>
                 <tr>
+                    <th>Photo</th>
                     <th>Patient ID</th>
                     <th>Name</th>
                     <th>Date of Birth</th>
@@ -112,6 +121,9 @@
                 @foreach (var patient in Model.Patients)
                 {
                     <tr onclick="showPatientDetails(@patient.Id)">
+                        <td>
+                            <img src="@patient.PhotoUrl" alt="@patient.FirstName @patient.LastName" class="patient-photo" />
+                        </td>
                         <td>@patient.Id.ToString("D5")</td>
                         <td>
                             <span class="patient-name">@patient.FirstName @patient.LastName</span>

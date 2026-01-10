@@ -57,6 +57,16 @@
             text-align: center;
         }
 
+        .header-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
         .header h1 {
             font-size: 2rem;
             margin-bottom: 5px;
@@ -192,6 +202,7 @@
 <body>
     <div class="container">
         <div class="header">
+            <img src="@doctor.PhotoUrl" alt="@doctor.FirstName @doctor.LastName" class="header-photo" />
             <h1>@doctor.FirstName @doctor.LastName</h1>
             <div class="specialization">@doctor.Specialization</div>
             <div class="license">License: @doctor.LicenseNumber</div>

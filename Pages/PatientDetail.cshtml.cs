@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -5,6 +6,7 @@ using martinwebapp.Data;
 
 namespace martinwebapp.Pages;
 
+[Authorize]
 public class PatientDetailModel : PageModel
 {
     private readonly ApplicationDbContext _context;

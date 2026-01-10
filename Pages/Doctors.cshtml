@@ -82,6 +82,14 @@
         background-color: #e0f2f1;
         color: #00796b;
     }
+
+    .doctor-photo {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #11998e;
+    }
 </style>
 
 <div class="doctors-container">
@@ -92,6 +100,7 @@
         <table class="doctors-table">
             <thead>
                 <tr>
+                    <th>Photo</th>
                     <th>Doctor ID</th>
                     <th>Name</th>
                     <th>Specialization</th>
@@ -104,6 +113,9 @@
                 @foreach (var doctor in Model.Doctors)
                 {
                     <tr onclick="showDoctorDetails(@doctor.Id)">
+                        <td>
+                            <img src="@doctor.PhotoUrl" alt="@doctor.FirstName @doctor.LastName" class="doctor-photo" />
+                        </td>
                         <td>@doctor.LicenseNumber</td>
                         <td>
                             <span class="doctor-name">@doctor.FirstName @doctor.LastName</span>

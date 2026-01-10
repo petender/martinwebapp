@@ -1,10 +1,337 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Contoso Clinic - Your Healthcare Partner";
 }
 
-<div class="text-center">
-    <h1 style="font-family: 'Courier New', Courier, monospace; font-size: 36px; font-weight: bold; color: darkred;">ATT GH-300 live agents</h1>
-    <img src="https://picsum.photos/800/400?random=1" alt="Seattle Skyline" style="max-width: 100%; height: auto; margin-top: 20px;" />
+<style>
+    .hero-section {
+        position: relative;
+        height: 500px;
+        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1600&h=500&fit=crop') center/cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        margin: -20px -15px 40px -15px;
+    }
+
+    .hero-content h1 {
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .hero-content p {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+
+    .hero-buttons .btn {
+        margin: 10px;
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary-custom {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        color: white;
+    }
+
+    .btn-primary-custom:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-secondary-custom {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        border: none;
+        color: white;
+    }
+
+    .btn-secondary-custom:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(17, 153, 142, 0.4);
+    }
+
+    .services-section {
+        padding: 60px 0;
+        background-color: #f8f9fa;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 50px;
+    }
+
+    .service-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+        margin-bottom: 30px;
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    .service-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .service-card h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 15px;
+    }
+
+    .service-card p {
+        color: #666;
+        line-height: 1.6;
+    }
+
+    .specialties-section {
+        padding: 60px 0;
+    }
+
+    .specialty-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 15px;
+        padding: 30px;
+        text-align: center;
+        transition: all 0.3s ease;
+        height: 100%;
+        margin-bottom: 30px;
+    }
+
+    .specialty-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+    }
+
+    .specialty-card h4 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .stats-section {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+        padding: 60px 0;
+    }
+
+    .stat-box {
+        text-align: center;
+        padding: 20px;
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .stat-label {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+
+    .cta-section {
+        padding: 80px 0;
+        background-color: #f8f9fa;
+        text-align: center;
+    }
+
+    .cta-section h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 30px;
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>CONTOSO CLINIC</h1>
+        <p>Excellence in Healthcare Since 1995</p>
+        <div class="hero-buttons">
+            <a href="/Patients" class="btn btn-primary-custom">View Patients</a>
+            <a href="/Doctors" class="btn btn-secondary-custom">Our Doctors</a>
+        </div>
+    </div>
+</div>
+
+<!-- Services Section -->
+<div class="services-section">
+    <div class="container">
+        <h2 class="section-title">Our Services</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="service-card">
+                    <div class="service-icon">🏥</div>
+                    <h3>Emergency Care</h3>
+                    <p>24/7 emergency medical services with state-of-the-art trauma center and rapid response team.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-card">
+                    <div class="service-icon">🔬</div>
+                    <h3>Diagnostic Services</h3>
+                    <p>Advanced imaging, laboratory testing, and diagnostic procedures with latest technology.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-card">
+                    <div class="service-icon">⚕️</div>
+                    <h3>Specialized Care</h3>
+                    <p>Comprehensive specialty services from cardiology to neurology by board-certified physicians.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-card">
+                    <div class="service-icon">🩺</div>
+                    <h3>Primary Care</h3>
+                    <p>Preventive care, health screenings, and ongoing management of chronic conditions.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-card">
+                    <div class="service-icon">💊</div>
+                    <h3>Pharmacy Services</h3>
+                    <p>Full-service pharmacy with prescription management and medication counseling.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-card">
+                    <div class="service-icon">🏃</div>
+                    <h3>Wellness Programs</h3>
+                    <p>Health education, fitness programs, and nutrition counseling for optimal wellness.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Medical Specialties Section -->
+<div class="specialties-section">
+    <div class="container">
+        <h2 class="section-title">Medical Specialties</h2>
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="specialty-card">
+                    <h4>Cardiology</h4>
+                    <p>Heart & Vascular Care</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="specialty-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                    <h4>Orthopedics</h4>
+                    <p>Bone & Joint Care</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="specialty-card">
+                    <h4>Pediatrics</h4>
+                    <p>Children's Health</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="specialty-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                    <h4>Neurology</h4>
+                    <p>Brain & Nerve Care</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="specialty-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                    <h4>Dermatology</h4>
+                    <p>Skin Care</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="specialty-card">
+                    <h4>Internal Medicine</h4>
+                    <p>Adult Medicine</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="specialty-card" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                    <h4>OB/GYN</h4>
+                    <p>Women's Health</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="specialty-card">
+                    <h4>Emergency Medicine</h4>
+                    <p>Critical Care</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Section -->
+<div class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-box">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Expert Doctors</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-box">
+                    <div class="stat-number">15K+</div>
+                    <div class="stat-label">Patients Served</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-box">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Emergency Care</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="stat-box">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Patient Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action Section -->
+<div class="cta-section">
+    <div class="container">
+        <h2>Ready to Experience World-Class Healthcare?</h2>
+        <p style="font-size: 1.2rem; color: #666; margin-bottom: 30px;">Schedule an appointment with our expert medical team today</p>
+        <a href="/Patients" class="btn btn-primary-custom">Get Started</a>
+    </div>
 </div>
