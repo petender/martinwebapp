@@ -1,0 +1,18 @@
+# azure.yaml configuration for Contoso Clinic Healthcare Management System
+name: contosohealth
+metadata:
+  template: contosohealth@0.0.1-beta
+  
+services:
+  web:
+    project: .
+    language: csharp
+    host: appservice
+    
+infra:
+  provider: bicep
+  path: infra
+  module: main
+  
+pipeline:
+  provider: azdo

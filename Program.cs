@@ -20,9 +20,23 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAuthorization();
 
-// Configure Entity Framework Core with SQLite
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=healthcare.db"));
+// Configure Entity Framework Core with SQL Server (Azure SQL) or SQLite for local development
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+
+if (connectionString.Contains("Data Source=", StringComparison.OrdinalIgnoreCase) && 
+    connectionString.Contains(".db", StringComparison.OrdinalIgnoreCase))
+{
+    // SQLite for local development
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlite(connectionString));
+}
+else
+{
+    // SQL Server for Azure deployment
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
 
 var app = builder.Build();
 

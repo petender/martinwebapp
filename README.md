@@ -35,10 +35,208 @@ Contoso Clinic is a comprehensive healthcare management system designed to manag
 - **Responsive Design**: Mobile-first approach using Bootstrap grid system
 
 #### Database
-- **Database Engine**: SQLite
-- **Database File**: `healthcare.db`
-- **Schema Management**: EF Core Migrations with Database.EnsureCreated()
+- **Database Engine**: SQLite (Local Development) / Azure SQL Database (Production)
+- **Local Database File**: `healthcare.db`
+- **Azure Database**: Managed Azure SQL Database with automated backups
+- **Schema Management**: EF Core with Database.EnsureCreated()
 - **Data Seeding**: Built-in seed data for 8 patients and 8 doctors
+
+## ☁️ Azure Deployment
+
+This application is Azure-ready and can be deployed using the Azure Developer CLI (azd).
+
+### Azure Architecture
+
+```
+Internet (HTTPS)
+      ↓
+Azure App Service (Linux .NET 9.0)
+      ├─→ Azure SQL Database
+      ├─→ Azure Key Vault (Secrets)
+      └─→ Application Insights (Monitoring)
+```
+
+### Azure Resources
+
+| Resource | Purpose | SKU/Tier |
+|---|---|---|
+| **App Service Plan** | Hosts the web application | B1 (Basic) Linux |
+| **App Service** | ASP.NET Core 9.0 Razor Pages | - |
+| **Azure SQL Database** | Patient and doctor data storage | Basic (5 DTU) |
+| **Azure SQL Server** | Logical server for SQL Database | - |
+| **Key Vault** | Secure secrets storage | Standard |
+| **Application Insights** | Application monitoring and telemetry | Standard |
+| **Log Analytics Workspace** | Centralized logging | Pay-as-you-go |
+
+### Prerequisites for Azure Deployment
+
+- [Azure Developer CLI (azd)](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd)
+- [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli)
+- Azure subscription with appropriate permissions
+- .NET 9.0 SDK
+
+### Quick Deploy to Azure
+
+1. **Login to Azure**
+   ```bash
+   azd auth login
+   ```
+
+2. **Initialize the environment** (first time only)
+   ```bash
+   azd init
+   ```
+   - When prompted, choose an environment name (e.g., `contosohealth-prod`)
+   - Select your Azure subscription
+   - Choose an Azure region (e.g., `eastus`, `westus2`)
+
+3. **Deploy to Azure**
+   ```bash
+   azd up
+   ```
+   This single command will:
+   - Provision all Azure resources using Bicep templates
+   - Create the Azure SQL Database with proper configuration
+   - Deploy the application code to App Service
+   - Configure Application Insights monitoring
+   - Set up Key Vault with connection strings
+   - Return the application URL when complete
+
+4. **Access your deployed application**
+   - The URL will be displayed at the end of deployment
+   - Format: `https://app-{unique-id}.azurewebsites.net`
+
+### Infrastructure as Code
+
+All Azure infrastructure is defined in Bicep templates located in the `./infra` directory:
+
+```
+infra/
+├── main.bicep                      # Main deployment template
+├── main.parameters.json            # Parameter values
+├── abbreviations.json              # Resource naming conventions
+└── modules/
+    ├── app-service.bicep           # App Service Plan and Web App
+    ├── database.bicep              # Azure SQL Server and Database
+    ├── monitoring.bicep            # Application Insights and Log Analytics
+    └── keyvault.bicep              # Azure Key Vault
+```
+
+**Key Infrastructure Features:**
+- **Resource Tagging**: All resources tagged with `SecurityControl: Ignore` and `azd-env-name`
+- **Managed Identity**: App Service uses system-assigned managed identity for Key Vault access
+- **Key Vault Integration**: SQL connection string stored securely in Key Vault
+- **HTTPS Only**: TLS 1.2+ enforced on all connections
+- **Azure SQL Firewall**: Configured to allow Azure services
+
+### Azure Developer CLI Commands
+
+```bash
+# Deploy infrastructure and code
+azd up
+
+# Deploy only infrastructure (Bicep templates)
+azd provision
+
+# Deploy only application code
+azd deploy
+
+# Monitor the application
+azd monitor
+
+# View environment variables
+azd env get-values
+
+# Clean up all Azure resources
+azd down
+```
+
+### Database Migration to Azure SQL
+
+The application automatically detects the database provider:
+
+**Local Development (SQLite):**
+```json
+"ConnectionStrings": {
+  "DefaultConnection": "Data Source=healthcare.db"
+}
+```
+
+**Azure Production (SQL Server):**
+- Connection string retrieved from Key Vault via App Service configuration
+- Format: `@Microsoft.KeyVault(SecretUri=...)`
+- Automatic schema creation on first deployment
+- Seed data populated automatically
+
+### Monitoring and Observability
+
+**Application Insights** is automatically configured for:
+- Request telemetry and performance tracking
+- Exception logging and error tracking
+- Dependency tracking (SQL queries, HTTP calls)
+- Custom metrics and events
+- Real-time metrics and alerts
+
+**Access Monitoring:**
+```bash
+azd monitor
+```
+This opens the Azure Portal with your Application Insights dashboard.
+
+### Cost Estimation
+
+**Monthly Azure Costs (USD):**
+- App Service Plan (B1): ~$13
+- Azure SQL Database (Basic): ~$5
+- Application Insights: Free tier (1 GB/month)
+- Key Vault: ~$0.03 per 10k operations
+- **Total: ~$18-20/month**
+
+*Actual costs may vary by region and usage patterns.*
+
+### Security and Compliance
+
+**Azure Security Features:**
+- ✅ HTTPS enforced on all endpoints
+- ✅ SQL Database encryption at rest
+- ✅ SQL Database TLS 1.2+ for data in transit
+- ✅ Key Vault for secrets management
+- ✅ Managed identities for service-to-service auth
+- ✅ Azure RBAC for resource access control
+- ✅ Application-level authentication (Cookie-based)
+
+### Troubleshooting Azure Deployment
+
+**View application logs:**
+```bash
+az webapp log tail --name app-{unique-id} --resource-group rg-{env-name}
+```
+
+**Access Key Vault secrets:**
+```bash
+az keyvault secret list --vault-name kv-{unique-id}
+```
+
+**Test SQL Database connectivity:**
+- Check firewall rules in Azure Portal
+- Verify App Service has managed identity
+- Confirm Key Vault access policy
+
+### Scaling and Performance
+
+**Vertical Scaling (Upgrade SKU):**
+- Basic (B1) → Standard (S1): Auto-scaling capabilities
+- Basic (B1) → Premium (P1V2): Deployment slots, advanced networking
+
+**Horizontal Scaling:**
+- Upgrade to Standard or Premium tier
+- Configure auto-scale rules based on CPU/memory
+- Multiple instances for high availability
+
+**Database Scaling:**
+- Basic (5 DTU) → Standard (S0-S12): More compute power
+- DTU-based → vCore-based: Fine-grained resource control
+- Add geo-replication for disaster recovery
 
 ## 📊 Data Models
 

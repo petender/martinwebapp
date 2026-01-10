@@ -1,0 +1,12 @@
+{
+  "resourcesResourceGroups": "rg-",
+  "webServerFarms": "asp-",
+  "webSitesAppService": "app-",
+  "sqlServers": "sql-",
+  "sqlServersDatabases": "sqldb-",
+  "keyVaultVaults": "kv-",
+  "operationalInsightsWorkspaces": "log-",
+  "insightsComponents": "appi-",
+  "storageStorageAccounts": "st",
+  "containerRegistryRegistries": "cr"
+}
