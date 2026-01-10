@@ -46,7 +46,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' existing = {
 resource appService 'Microsoft.Web/sites@2023-12-01' = {
   name: appServiceName
   location: location
-  tags: tags
+  tags: union(tags, { 'azd-service-name': 'web' })
   kind: 'app,linux'
   identity: {
     type: 'SystemAssigned'

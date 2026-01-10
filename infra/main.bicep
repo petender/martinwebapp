@@ -54,6 +54,7 @@ module keyVault './modules/keyvault.bicep' = {
     tags: tags
     keyVaultName: '${abbrs.keyVaultVaults}${resourceToken}'
     principalId: principalId
+    principalType: 'User'
   }
 }
 

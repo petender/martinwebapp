@@ -10,6 +10,9 @@ param keyVaultName string
 @description('Principal ID to grant access')
 param principalId string
 
+@description('Principal type (User or ServicePrincipal)')
+param principalType string = 'User'
+
 // Key Vault
 resource keyVault 'Microsoft.KeyVault/vaults@2023-07-01' = {
   name: keyVaultName
@@ -44,7 +47,7 @@ resource keyVaultRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-04
   properties: {
     roleDefinitionId: keyVaultSecretsOfficerRole
     principalId: principalId
-    principalType: 'ServicePrincipal'
+    principalType: principalType
   }
 }
 
