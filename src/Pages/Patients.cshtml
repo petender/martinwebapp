@@ -4,162 +4,258 @@
     ViewData["Title"] = "Patients";
 }
 
-<style>
-    .patients-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 20px;
-    }
+@section Styles {
+    <link rel="stylesheet" href="~/css/patients.css" asp-append-version="true" />
+}
 
-    .patients-title {
-        color: #2c3e50;
-        text-align: center;
-        margin-bottom: 30px;
-        font-size: 2.5rem;
-        font-weight: bold;
-    }
+<div class="patients-page">
+    <!-- Header -->
+    <div class="patients-header">
+        <h1 class="patients-title">Patient Directory</h1>
+        <p class="patients-subtitle">Manage and view patient information</p>
+    </div>
 
-    .patients-table {
-        width: 100%;
-        border-collapse: collapse;
-        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-        background-color: white;
-        border-radius: 8px;
-        overflow: hidden;
-    }
-
-    .patients-table thead {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-    }
-
-    .patients-table th {
-        padding: 15px;
-        text-align: left;
-        font-weight: 600;
-        text-transform: uppercase;
-        font-size: 0.9rem;
-        letter-spacing: 0.5px;
-    }
-
-    .patients-table tbody tr {
-        border-bottom: 1px solid #ecf0f1;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .patients-table tbody tr:hover {
-        background-color: #f8f9fa;
-        transform: scale(1.01);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    }
-
-    .patients-table tbody tr:nth-child(even) {
-        background-color: #f8f9fa;
-    }
-
-    .patients-table td {
-        padding: 15px;
-        color: #2c3e50;
-    }
-
-    .patient-name {
-        color: #667eea;
-        font-weight: 600;
-        text-decoration: none;
-    }
-
-    .patient-name:hover {
-        text-decoration: underline;
-    }
-
-    .gender-badge {
-        display: inline-block;
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: 500;
-    }
-
-    .gender-male {
-        background-color: #e3f2fd;
-        color: #1976d2;
-    }
-
-    .gender-female {
-        background-color: #fce4ec;
-        color: #c2185b;
-    }
-
-    .patient-photo {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 3px solid #667eea;
-    }
-</style>
-
-<div class="patients-container">
-    <h1 class="patients-title">@ViewData["Title"]</h1>
-    
     @if (Model.Patients != null && Model.Patients.Any())
     {
-        <table class="patients-table">
-            <thead>
-                <tr>
-                    <th>Photo</th>
-                    <th>Patient ID</th>
-                    <th>Name</th>
-                    <th>Date of Birth</th>
-                    <th>Gender</th>
-                    <th>Phone</th>
-                    <th>Blood Type</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var patient in Model.Patients)
-                {
-                    <tr onclick="showPatientDetails(@patient.Id)">
-                        <td>
-                            <img src="@patient.PhotoUrl" alt="@patient.FirstName @patient.LastName" class="patient-photo" />
-                        </td>
-                        <td>@patient.Id.ToString("D5")</td>
-                        <td>
-                            <span class="patient-name">@patient.FirstName @patient.LastName</span>
-                        </td>
-                        <td>@patient.DateOfBirth.ToString("MMM dd, yyyy")</td>
-                        <td>
-                            <span class="gender-badge gender-@patient.Gender.ToLower()">@patient.Gender</span>
-                        </td>
-                        <td>@patient.PhoneNumber</td>
-                        <td>@patient.BloodType</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        <!-- Stats Section -->
+        <div class="patients-stats">
+            <div class="stat-card">
+                <div class="stat-value">@Model.Patients.Count</div>
+                <div class="stat-label">Total Patients</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                <div class="stat-value">@Model.Patients.Count(p => p.Gender == "Male")</div>
+                <div class="stat-label">Male Patients</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);">
+                <div class="stat-value">@Model.Patients.Count(p => p.Gender == "Female")</div>
+                <div class="stat-label">Female Patients</div>
+            </div>
+        </div>
+
+        <!-- Search and Filter Controls -->
+        <div class="patients-controls">
+            <div class="search-filter-row">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" 
+                           id="searchInput" 
+                           class="search-input" 
+                           placeholder="Search by name, ID, phone, or blood type..." 
+                           autocomplete="off">
+                </div>
+                <select id="sortSelect" class="filter-select">
+                    <option value="name">Sort by Name</option>
+                    <option value="id">Sort by ID</option>
+                    <option value="age">Sort by Age</option>
+                    <option value="recent">Recently Registered</option>
+                </select>
+                <div class="view-toggle">
+                    <button class="view-btn active" id="gridViewBtn" title="Grid View">📇</button>
+                    <button class="view-btn" id="listViewBtn" title="List View">📋</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patients Grid -->
+        <div class="patients-grid" id="patientsGrid">
+            @foreach (var patient in Model.Patients)
+            {
+                var age = DateTime.Now.Year - patient.DateOfBirth.Year;
+                if (DateTime.Now < patient.DateOfBirth.AddYears(age)) age--;
+                
+                // Determine patient status (simulated - can be enhanced with real data)
+                var statusClass = (patient.Id % 3 == 0) ? "follow-up" : (patient.Id % 5 == 0) ? "urgent" : "";
+                var statusTitle = (patient.Id % 3 == 0) ? "Follow-up needed" : (patient.Id % 5 == 0) ? "Urgent" : "Active";
+                
+                <div class="patient-card" 
+                     data-patient-id="@patient.Id"
+                     data-name="@patient.FirstName @patient.LastName"
+                     data-blood="@patient.BloodType"
+                     data-phone="@patient.PhoneNumber"
+                     data-age="@age"
+                     data-registered="@patient.RegistrationDate.ToString("yyyyMMdd")"
+                     onclick="showPatientDetails(@patient.Id)">
+                    <div class="patient-card-header">
+                        <div class="patient-photo-wrapper">
+                            <img src="@patient.PhotoUrl" 
+                                 alt="@patient.FirstName @patient.LastName" 
+                                 class="patient-photo" />
+                            @if (!string.IsNullOrEmpty(statusClass))
+                            {
+                                <span class="patient-status-badge @statusClass" title="@statusTitle"></span>
+                            }
+                            else
+                            {
+                                <span class="patient-status-badge" title="Active"></span>
+                            }
+                        </div>
+                        <div class="patient-info">
+                            <div class="patient-name">@patient.FirstName @patient.LastName</div>
+                            <div class="patient-id">ID: @patient.Id.ToString("D5")</div>
+                        </div>
+                    </div>
+                    <div class="patient-card-body">
+                        <div class="patient-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Age</div>
+                                <div class="detail-value">@age years</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Blood Type</div>
+                                <div class="detail-value">@patient.BloodType</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Phone</div>
+                                <div class="detail-value">@patient.PhoneNumber</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Registered</div>
+                                <div class="detail-value">@patient.RegistrationDate.ToString("MMM yyyy")</div>
+                            </div>
+                        </div>
+                        <div class="patient-badges">
+                            <span class="badge badge-gender @(patient.Gender.ToLower() == "female" ? "female" : "")">
+                                @(patient.Gender == "Male" ? "👨" : "👩") @patient.Gender
+                            </span>
+                            <span class="badge badge-blood">🩸 @patient.BloodType</span>
+                            <span class="badge badge-age">📅 @age yrs</span>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- No Results Message (Hidden by default) -->
+        <div id="noResults" class="empty-state" style="display: none;">
+            <div class="empty-icon">🔍</div>
+            <h3 class="empty-title">No patients found</h3>
+            <p class="empty-message">Try adjusting your search criteria</p>
+        </div>
     }
     else
     {
-        <p class="text-center">No patient data available.</p>
+        <div class="empty-state">
+            <div class="empty-icon">👥</div>
+            <h3 class="empty-title">No Patients Available</h3>
+            <p class="empty-message">There are no patient records in the system yet.</p>
+        </div>
     }
 </div>
 
-<script>
-    function showPatientDetails(patientId) {
-        // Open patient details in a new popup window
-        const width = 850;
-        const height = 700;
-        const left = (screen.width - width) / 2;
-        const top = (screen.height - height) / 2;
-        
-        const features = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes,status=yes`;
-        const popup = window.open(`/PatientDetail/${patientId}`, `patient_${patientId}`, features);
-        
-        if (popup) {
-            popup.focus();
-        } else {
-            alert('Please allow popups for this website to view patient details.');
+@section Scripts {
+    <script>
+        // Patient details popup function
+        function showPatientDetails(patientId) {
+            const width = 900;
+            const height = 750;
+            const left = (screen.width - width) / 2;
+            const top = (screen.height - height) / 2;
+            
+            const features = `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes,status=yes`;
+            const popup = window.open(`/PatientDetail/${patientId}`, `patient_${patientId}`, features);
+            
+            if (popup) {
+                popup.focus();
+            } else {
+                alert('Please allow popups for this website to view patient details.');
+            }
         }
-    }
-</script>
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const patientsGrid = document.getElementById('patientsGrid');
+        const noResults = document.getElementById('noResults');
+        const patientCards = document.querySelectorAll('.patient-card');
+
+        function filterPatients() {
+            const searchTerm = searchInput.value.toLowerCase();
+            let visibleCount = 0;
+
+            patientCards.forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                const id = card.dataset.patientId;
+                const blood = card.dataset.blood.toLowerCase();
+                const phone = card.dataset.phone;
+
+                const matches = name.includes(searchTerm) || 
+                               id.includes(searchTerm) || 
+                               blood.includes(searchTerm) || 
+                               phone.includes(searchTerm);
+
+                if (matches) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show/hide no results message
+            if (visibleCount === 0 && searchTerm !== '') {
+                patientsGrid.style.display = 'none';
+                noResults.style.display = 'block';
+            } else {
+                patientsGrid.style.display = 'grid';
+                noResults.style.display = 'none';
+            }
+        }
+
+        searchInput.addEventListener('input', filterPatients);
+
+        // Sorting functionality
+        const sortSelect = document.getElementById('sortSelect');
+        
+        sortSelect.addEventListener('change', function() {
+            const sortBy = this.value;
+            const cardsArray = Array.from(patientCards);
+            
+            cardsArray.sort((a, b) => {
+                switch(sortBy) {
+                    case 'name':
+                        return a.dataset.name.localeCompare(b.dataset.name);
+                    case 'id':
+                        return parseInt(a.dataset.patientId) - parseInt(b.dataset.patientId);
+                    case 'age':
+                        return parseInt(a.dataset.age) - parseInt(b.dataset.age);
+                    case 'recent':
+                        return b.dataset.registered.localeCompare(a.dataset.registered);
+                    default:
+                        return 0;
+                }
+            });
+
+            // Reorder cards in the DOM
+            cardsArray.forEach(card => patientsGrid.appendChild(card));
+        });
+
+        // View toggle functionality (Grid/List view)
+        const gridViewBtn = document.getElementById('gridViewBtn');
+        const listViewBtn = document.getElementById('listViewBtn');
+
+        gridViewBtn?.addEventListener('click', function() {
+            patientsGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(350px, 1fr))';
+            gridViewBtn.classList.add('active');
+            listViewBtn.classList.remove('active');
+        });
+
+        listViewBtn?.addEventListener('click', function() {
+            patientsGrid.style.gridTemplateColumns = '1fr';
+            listViewBtn.classList.add('active');
+            gridViewBtn.classList.remove('active');
+        });
+
+        // Add keyboard navigation
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                searchInput.value = '';
+                filterPatients();
+            }
+        });
+
+        // Add smooth scroll to top after filtering
+        searchInput.addEventListener('focus', function() {
+            this.select();
+        });
+    </script>
+}

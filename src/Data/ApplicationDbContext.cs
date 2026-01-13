@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<Patient> Patients { get; set; }
     public DbSet<Doctor> Doctors { get; set; }
+    public DbSet<Medication> Medications { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -277,6 +278,130 @@ public class ApplicationDbContext : DbContext
                 Bio = "Emergency medicine physician with experience in trauma care and critical care medicine.",
                 PhotoUrl = "/images/doctors/doctor8.jpg",
                 JoinDate = new DateTime(2017, 2, 22)
+            }
+        );
+
+        // Seed Medication Data
+        modelBuilder.Entity<Medication>().HasData(
+            new Medication
+            {
+                Id = 1,
+                Name = "Amoxicillin 500mg",
+                EAN = "8712345678901",
+                CostPrice = 12.50m,
+                Dose = 500,
+                DoseUnit = "mg",
+                Description = "Antibiotic used to treat bacterial infections",
+                Manufacturer = "Pfizer",
+                CreatedDate = new DateTime(2023, 1, 15)
+            },
+            new Medication
+            {
+                Id = 2,
+                Name = "Ibuprofen 400mg",
+                EAN = "8712345678902",
+                CostPrice = 8.75m,
+                Dose = 400,
+                DoseUnit = "mg",
+                Description = "Non-steroidal anti-inflammatory drug for pain relief",
+                Manufacturer = "Johnson & Johnson",
+                CreatedDate = new DateTime(2023, 1, 20)
+            },
+            new Medication
+            {
+                Id = 3,
+                Name = "Metformin 850mg",
+                EAN = "8712345678903",
+                CostPrice = 15.30m,
+                Dose = 850,
+                DoseUnit = "mg",
+                Description = "Medication for type 2 diabetes",
+                Manufacturer = "Merck",
+                CreatedDate = new DateTime(2023, 2, 5)
+            },
+            new Medication
+            {
+                Id = 4,
+                Name = "Lisinopril 10mg",
+                EAN = "8712345678904",
+                CostPrice = 18.90m,
+                Dose = 10,
+                DoseUnit = "mg",
+                Description = "ACE inhibitor for high blood pressure",
+                Manufacturer = "AstraZeneca",
+                CreatedDate = new DateTime(2023, 2, 12)
+            },
+            new Medication
+            {
+                Id = 5,
+                Name = "Atorvastatin 20mg",
+                EAN = "8712345678905",
+                CostPrice = 22.40m,
+                Dose = 20,
+                DoseUnit = "mg",
+                Description = "Statin medication to lower cholesterol",
+                Manufacturer = "Pfizer",
+                CreatedDate = new DateTime(2023, 3, 1)
+            },
+            new Medication
+            {
+                Id = 6,
+                Name = "Omeprazole 20mg",
+                EAN = "8712345678906",
+                CostPrice = 10.25m,
+                Dose = 20,
+                DoseUnit = "mg",
+                Description = "Proton pump inhibitor for acid reflux",
+                Manufacturer = "AstraZeneca",
+                CreatedDate = new DateTime(2023, 3, 10)
+            },
+            new Medication
+            {
+                Id = 7,
+                Name = "Aspirin 100mg",
+                EAN = "8712345678907",
+                CostPrice = 5.50m,
+                Dose = 100,
+                DoseUnit = "mg",
+                Description = "Pain reliever and blood thinner",
+                Manufacturer = "Bayer",
+                CreatedDate = new DateTime(2023, 3, 15)
+            },
+            new Medication
+            {
+                Id = 8,
+                Name = "Levothyroxine 75mcg",
+                EAN = "8712345678908",
+                CostPrice = 14.80m,
+                Dose = 0.075m,
+                DoseUnit = "mg",
+                Description = "Thyroid hormone replacement therapy",
+                Manufacturer = "Abbott",
+                CreatedDate = new DateTime(2023, 4, 1)
+            },
+            new Medication
+            {
+                Id = 9,
+                Name = "Amlodipine 5mg",
+                EAN = "8712345678909",
+                CostPrice = 11.60m,
+                Dose = 5,
+                DoseUnit = "mg",
+                Description = "Calcium channel blocker for hypertension",
+                Manufacturer = "Norvasc",
+                CreatedDate = new DateTime(2023, 4, 8)
+            },
+            new Medication
+            {
+                Id = 10,
+                Name = "Vitamin D3",
+                EAN = "8712345678910",
+                CostPrice = 9.99m,
+                Dose = 1,
+                DoseUnit = "pill",
+                Description = "Dietary supplement for bone health",
+                Manufacturer = "Nature Made",
+                CreatedDate = new DateTime(2023, 4, 15)
             }
         );
     }
