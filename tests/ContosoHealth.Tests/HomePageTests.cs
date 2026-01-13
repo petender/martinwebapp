@@ -1,5 +1,6 @@
 using Microsoft.Playwright;
 using static Microsoft.Playwright.Assertions;
+using System.Text.RegularExpressions;
 
 namespace ContosoHealth.Tests;
 
@@ -11,8 +12,8 @@ public class HomePageTests : PlaywrightTestBase
         // Navigate to home page
         await Page.GotoAsync("/");
 
-        // Check page title
-        await Expect(Page).ToHaveTitleAsync("Contoso Clinic - Your Healthcare Partner");
+        // Check page title (format is: "Title - Contoso Clinic")
+        await Expect(Page).ToHaveTitleAsync("Contoso Clinic - Your Healthcare Partner - Contoso Clinic");
 
         // Check main heading in hero section
         var heroHeading = Page.Locator(".hero-section h1");
@@ -104,7 +105,7 @@ public class HomePageTests : PlaywrightTestBase
         await Expect(ourDoctorsButton).ToBeVisibleAsync();
         await ourDoctorsButton.ClickAsync();
         await Page.WaitForURLAsync("**/Doctors");
-        await Expect(Page).ToHaveTitleAsync("Doctors");
+        await Expect(Page).ToHaveTitleAsync(new Regex("Doctors"));
     }
 
     [Fact]

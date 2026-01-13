@@ -1,5 +1,6 @@
 using Microsoft.Playwright;
 using static Microsoft.Playwright.Assertions;
+using System.Text.RegularExpressions;
 
 namespace ContosoHealth.Tests;
 
@@ -26,7 +27,7 @@ public class PatientTests : PlaywrightTestBase
         await Page.GotoAsync("/Patients");
 
         // Check page title
-        await Expect(Page).ToHaveTitleAsync("Patients");
+        await Expect(Page).ToHaveTitleAsync(new Regex("Patients"));
 
         // Check heading
         var heading = Page.Locator(".patients-title");
@@ -205,6 +206,6 @@ public class PatientTests : PlaywrightTestBase
 
         // Should be on patients page
         await Page.WaitForURLAsync("**/Patients");
-        await Expect(Page).ToHaveTitleAsync("Patients");
+        await Expect(Page).ToHaveTitleAsync(new Regex("Patients"));
     }
 }

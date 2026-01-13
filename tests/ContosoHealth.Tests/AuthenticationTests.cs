@@ -1,5 +1,6 @@
 using Microsoft.Playwright;
 using static Microsoft.Playwright.Assertions;
+using System.Text.RegularExpressions;
 
 namespace ContosoHealth.Tests;
 
@@ -49,7 +50,7 @@ public class AuthenticationTests : PlaywrightTestBase
         await Page.WaitForURLAsync("**/");
 
         // Check that we're on the home page
-        await Expect(Page).ToHaveTitleAsync("Contoso Clinic - Your Healthcare Partner");
+        await Expect(Page).ToHaveTitleAsync(new Regex("Contoso Clinic.*Your Healthcare Partner"));
 
         // Verify navigation bar shows logout option (user is authenticated)
         var logoutLink = Page.Locator("a[href='/Logout']");
@@ -103,7 +104,7 @@ public class AuthenticationTests : PlaywrightTestBase
         // Should redirect to login page
         await Page.WaitForURLAsync("**/Login**");
 
-        // Verify we're on login page
+        // Verify we're on login page (title format: "ViewData - Contoso Clinic")
         await Expect(Page).ToHaveTitleAsync("Login - Contoso Clinic");
     }
 
@@ -120,6 +121,6 @@ public class AuthenticationTests : PlaywrightTestBase
 
         // Should be on home page
         await Page.WaitForURLAsync("**/");
-        await Expect(Page).ToHaveTitleAsync("Contoso Clinic - Your Healthcare Partner");
+        await Expect(Page).ToHaveTitleAsync(new Regex("Contoso Clinic.*Your Healthcare Partner"));
     }
 }

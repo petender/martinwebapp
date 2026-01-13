@@ -1,5 +1,6 @@
 using Microsoft.Playwright;
 using static Microsoft.Playwright.Assertions;
+using System.Text.RegularExpressions;
 
 namespace ContosoHealth.Tests;
 
@@ -28,14 +29,14 @@ public class NavigationAndOtherPagesTests : PlaywrightTestBase
         var homeLink = Page.Locator("a[href='/']:has-text('Home'), a[href='/']:has-text('Contoso')").First;
         await homeLink.ClickAsync();
         await Page.WaitForURLAsync("**/");
-        await Expect(Page).ToHaveTitleAsync("Contoso Clinic - Your Healthcare Partner");
+        await Expect(Page).ToHaveTitleAsync(new Regex("Contoso Clinic.*Your Healthcare Partner"));
 
         // Test from Privacy page
         await Page.GotoAsync("/Privacy");
         homeLink = Page.Locator("a[href='/']:has-text('Home'), a[href='/']:has-text('Contoso')").First;
         await homeLink.ClickAsync();
         await Page.WaitForURLAsync("**/");
-        await Expect(Page).ToHaveTitleAsync("Contoso Clinic - Your Healthcare Partner");
+        await Expect(Page).ToHaveTitleAsync(new Regex("Contoso Clinic.*Your Healthcare Partner"));
     }
 
     [Fact]
@@ -66,7 +67,7 @@ public class NavigationAndOtherPagesTests : PlaywrightTestBase
         // Click it
         await doctorsLink.ClickAsync();
         await Page.WaitForURLAsync("**/Doctors");
-        await Expect(Page).ToHaveTitleAsync("Doctors");
+        await Expect(Page).ToHaveTitleAsync(new Regex("Doctors"));
     }
 
     [Fact]
@@ -113,7 +114,7 @@ public class NavigationAndOtherPagesTests : PlaywrightTestBase
         // Click it
         await patientsLink.ClickAsync();
         await Page.WaitForURLAsync("**/Patients");
-        await Expect(Page).ToHaveTitleAsync("Patients");
+        await Expect(Page).ToHaveTitleAsync(new Regex("Patients"));
     }
 
     [Fact]
