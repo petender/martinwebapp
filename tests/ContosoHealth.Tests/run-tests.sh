@@ -24,7 +24,10 @@ fi
 
 # Install browsers if needed
 echo "Ensuring Playwright browsers are installed..."
-playwright install chromium --with-deps 2>/dev/null || playwright install chromium
+if ! playwright install chromium --with-deps 2>&1 | tee /tmp/playwright-install.log; then
+    echo "Warning: Playwright browser installation with deps failed, trying without deps..."
+    playwright install chromium || echo "Warning: Failed to install Playwright browsers. Tests may fail."
+fi
 
 # Build the project
 echo ""
