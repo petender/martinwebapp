@@ -279,7 +279,7 @@
                     <div class="info-grid">
                         <div class="info-card">
                             <div class="info-label">Total Visits</div>
-                            <div class="info-value">@((DateTime.Now - patient.RegistrationDate).Days / 30)</div>
+                            <div class="info-value">@(Math.Max(1, (DateTime.Now - patient.RegistrationDate).Days / 30))</div>
                         </div>
                         <div class="info-card">
                             <div class="info-label">Last Visit</div>
@@ -324,18 +324,18 @@
         // Export patient data function
         function exportPatientData() {
             const patientData = {
-                id: '@patient.Id',
-                name: '@patient.FirstName @patient.LastName',
-                dob: '@patient.DateOfBirth.ToString("yyyy-MM-dd")',
+                id: '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(patient.Id))',
+                name: '@Html.Raw(System.Text.Json.JsonSerializer.Serialize($"{patient.FirstName} {patient.LastName}"))',
+                dob: '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(patient.DateOfBirth.ToString("yyyy-MM-dd")))',
                 age: @age,
-                gender: '@patient.Gender',
-                bloodType: '@patient.BloodType',
-                phone: '@patient.PhoneNumber',
-                email: '@patient.Email',
-                address: '@patient.Address',
-                allergies: '@patient.Allergies',
-                medicalHistory: '@patient.MedicalHistory',
-                registrationDate: '@patient.RegistrationDate.ToString("yyyy-MM-dd")'
+                gender: '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(patient.Gender))',
+                bloodType: '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(patient.BloodType))',
+                phone: '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(patient.PhoneNumber))',
+                email: '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(patient.Email))',
+                address: '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(patient.Address))',
+                allergies: '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(patient.Allergies))',
+                medicalHistory: '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(patient.MedicalHistory))',
+                registrationDate: '@Html.Raw(System.Text.Json.JsonSerializer.Serialize(patient.RegistrationDate.ToString("yyyy-MM-dd")))'
             };
 
             const dataStr = JSON.stringify(patientData, null, 2);
