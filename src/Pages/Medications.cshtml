@@ -1,0 +1,260 @@
+@page
+@model MedicationsModel
+@{
+    ViewData["Title"] = "Medications";
+}
+
+<style>
+    .medications-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .medications-title {
+        color: #2c3e50;
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+
+    .medications-table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .medications-table thead {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+    }
+
+    .medications-table th {
+        padding: 15px;
+        text-align: left;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+    }
+
+    .medications-table tbody tr {
+        border-bottom: 1px solid #ecf0f1;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .medications-table tbody tr:hover {
+        background-color: #f8f9fa;
+        transform: scale(1.01);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .medications-table td {
+        padding: 15px;
+        color: #2c3e50;
+    }
+
+    .medication-name {
+        font-weight: 600;
+        color: #2980b9;
+    }
+
+    .ean-code {
+        font-family: 'Courier New', monospace;
+        background-color: #ecf0f1;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+
+    .cost-price {
+        font-weight: 600;
+        color: #27ae60;
+        font-size: 1.1rem;
+    }
+
+    .dose-info {
+        background-color: #e8f5e9;
+        padding: 5px 10px;
+        border-radius: 15px;
+        display: inline-block;
+        font-weight: 500;
+    }
+
+    .manufacturer {
+        color: #7f8c8d;
+        font-size: 0.9rem;
+    }
+
+    .search-container {
+        margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .search-box {
+        width: 50%;
+        padding: 12px 20px;
+        border: 2px solid #11998e;
+        border-radius: 25px;
+        font-size: 1rem;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+    .search-box:focus {
+        width: 60%;
+        border-color: #38ef7d;
+        box-shadow: 0 0 10px rgba(17, 153, 142, 0.3);
+    }
+
+    .stats-container {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 30px;
+        gap: 20px;
+    }
+
+    .stat-card {
+        flex: 1;
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .stat-number {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+
+    @@media (max-width: 768px) {
+        .medications-table {
+            font-size: 0.85rem;
+        }
+
+        .medications-table th,
+        .medications-table td {
+            padding: 10px 5px;
+        }
+
+        .search-box {
+            width: 90%;
+        }
+
+        .search-box:focus {
+            width: 95%;
+        }
+
+        .stats-container {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="medications-container">
+    <h1 class="medications-title">💊 Medication Inventory</h1>
+
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-number">@Model.Medications.Count</div>
+            <div class="stat-label">Total Medications</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">@Model.Medications.Count(m => m.DoseUnit == "mg")</div>
+            <div class="stat-label">Milligram Dosages</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">@Model.Medications.Count(m => m.DoseUnit == "pill")</div>
+            <div class="stat-label">Pill Units</div>
+        </div>
+    </div>
+
+    <div class="search-container">
+        <input type="text" 
+               id="searchInput" 
+               class="search-box" 
+               placeholder="🔍 Search medications by name, EAN, or manufacturer..." 
+               onkeyup="filterMedications()">
+    </div>
+
+    @if (Model.Medications.Any())
+    {
+        <table class="medications-table" id="medicationsTable">
+            <thead>
+                <tr>
+                    <th>Medication Name</th>
+                    <th>EAN Code</th>
+                    <th>Cost Price</th>
+                    <th>Dose</th>
+                    <th>Manufacturer</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var medication in Model.Medications)
+                {
+                    <tr onclick="window.location.href='/MedicationDetail/@medication.Id'">
+                        <td class="medication-name">@medication.Name</td>
+                        <td><span class="ean-code">@medication.EAN</span></td>
+                        <td class="cost-price">$@medication.CostPrice.ToString("F2")</td>
+                        <td>
+                            <span class="dose-info">@medication.Dose @medication.DoseUnit</span>
+                        </td>
+                        <td class="manufacturer">@medication.Manufacturer</td>
+                        <td>@medication.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div style="text-align: center; padding: 50px; color: #7f8c8d;">
+            <p style="font-size: 1.2rem;">No medications found in the inventory.</p>
+        </div>
+    }
+</div>
+
+<script>
+    function filterMedications() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toUpperCase();
+        const table = document.getElementById('medicationsTable');
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            let found = false;
+
+            for (let j = 0; j < cells.length; j++) {
+                const cell = cells[j];
+                if (cell) {
+                    const textValue = cell.textContent || cell.innerText;
+                    if (textValue.toUpperCase().indexOf(filter) > -1) {
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (found) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none';
+            }
+        }
+    }
+</script>
